@@ -1,0 +1,13 @@
+name: history_state_notifier
+description: Extends state_notifier to add a history feature that allows for undo/redo operations.
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  state_notifier: ^0.7.1
+
+dev_dependencies:
+  meta: ^1.4.0
