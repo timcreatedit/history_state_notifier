@@ -8,6 +8,6 @@ environment:
 
 dependencies:
   state_notifier: ^0.7.1
+  meta: ^1.7.0
 
 dev_dependencies:
-  meta: ^1.4.0
