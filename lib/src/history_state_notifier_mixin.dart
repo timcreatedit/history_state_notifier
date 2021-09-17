@@ -79,6 +79,7 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
 
   /// You can override this to prevent undo/redo operations in certain cases
   /// (e.g. when in a loading state)
+  @protected
   bool get allowOperations => true;
 
   /// You can override this function if you want to transform states from the
@@ -86,6 +87,7 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
   ///
   /// This can be useful if your state contains values that aren't supposed
   /// to be changed upon undoing for example.
+  @protected
   T transformHistoryState(T newState, T currentState) {
     return newState;
   }
