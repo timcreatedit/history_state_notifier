@@ -32,7 +32,7 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
     }
   }
 
-  late List<T> _undoHistory;
+  List<T> _undoHistory = [];
   int _undoIndex = 0;
 
   /// The current "state" of this [HistoryStateNotifier] and adds the new state
@@ -44,8 +44,8 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
   /// Updating the state will throw if at least one listener throws.
   @override
   set state(T value) {
+    _internalClearRedoQueue();
     if (_undoHistory.isEmpty || value != _undoHistory[0]) {
-      clearRedoQueue();
       _undoHistory.insert(0, value);
       if (_maxHistoryLength != null &&
           _undoHistory.length > _maxHistoryLength!) {
@@ -116,10 +116,14 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
   /// Internally this is used whenever a change occurs, but you might want to
   /// use it for something else.
   void clearRedoQueue() {
+    _internalClearRedoQueue();
+    temporaryState = state;
+  }
+
+  void _internalClearRedoQueue() {
     if (canRedo) {
       _undoHistory = _undoHistory.sublist(_undoIndex, _undoHistory.length);
       _undoIndex = 0;
     }
-    temporaryState = state;
   }
 }
