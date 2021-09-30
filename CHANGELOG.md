@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Annotated ``transformHistoryState()`` as protected
+
 ## 0.0.2
 
 * Fixed mistake in README
