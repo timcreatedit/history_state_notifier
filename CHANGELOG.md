@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Added stream of state updates to listen to updates that don't include temporary state
+
 ## 0.0.3
 
 * Annotated ``transformHistoryState()`` as protected
