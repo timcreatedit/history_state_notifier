@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:state_notifier/state_notifier.dart';
 
@@ -54,6 +56,7 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
     }
 
     super.state = value;
+    _stateUpdatesController.add(value);
   }
 
   /// Sets the current "state" of this [HistoryStateNotifier] **without** adding
@@ -70,6 +73,12 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
   set temporaryState(T value) {
     super.state = value;
   }
+
+  StreamController<T> _stateUpdatesController = StreamController.broadcast();
+
+  /// A stream of all updates to the state that doesn't include updates to the
+  /// temporary state.
+  Stream<T> get stateUpdates => _stateUpdatesController.stream;
 
   /// Whether currently an undo operation is possible.
   bool get canUndo => (_undoIndex + 1 < _undoHistory.length);
@@ -127,5 +136,12 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
       _undoHistory = _undoHistory.sublist(_undoIndex, _undoHistory.length);
       _undoIndex = 0;
     }
+  }
+
+  @override
+  @mustCallSuper
+  void dispose() {
+    _stateUpdatesController.close();
+    super.dispose();
   }
 }
