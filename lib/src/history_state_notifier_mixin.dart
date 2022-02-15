@@ -47,7 +47,8 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
   @override
   set state(T value) {
     _internalClearRedoQueue();
-    if (_undoHistory.isEmpty || value != _undoHistory[0]) {
+    if (_undoHistory.isEmpty ||
+        shouldInsertStateIntoQueue(value, _undoHistory[0])) {
       _undoHistory.insert(0, value);
       if (_maxHistoryLength != null &&
           _undoHistory.length > _maxHistoryLength!) {
@@ -99,6 +100,18 @@ mixin HistoryStateNotifierMixin<T> on StateNotifier<T> {
   @protected
   T transformHistoryState(T newState, T currentState) {
     return newState;
+  }
+
+  /// You can override this function if you want to filter certain states before
+  /// adding them to the history.
+  ///
+  /// By default, this uses value equality, but you could for example always
+  /// return true in case your state doesn't support value equality.
+  /// [newState] holds the state that's supposed to be added, [lastInQueue] is
+  /// the state that's currently last in the undo queue.
+  @protected
+  bool shouldInsertStateIntoQueue(T newState, T lastInQueue) {
+    return newState != lastInQueue;
   }
 
   /// Returns to the previous state in the history.
