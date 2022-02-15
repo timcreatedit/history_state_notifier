@@ -1,3 +1,8 @@
+## 0.0.5
+
+* Added ``shouldInsertStateIntoQueue`` to make equality comparison overridable
+* Upgraded state_notifier dependency
+
 ## 0.0.4
 
 * Added stream of state updates to listen to updates that don't include temporary state
