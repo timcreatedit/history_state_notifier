@@ -9,5 +9,3 @@ environment:
 dependencies:
   state_notifier: ^0.7.2+1
   meta: ^1.7.0
-
-dev_dependencies:
